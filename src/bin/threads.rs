@@ -21,8 +21,13 @@ fn spawn_threads() -> Vec<thread::JoinHandle<usize>> {
 
 fn main() {
     let handles = spawn_threads();
+    let nhandles = handles.len();
+    let mut values = std::collections::HashSet::new();
     for h in handles {
-        assert!((1..=5).contains(&h.join().unwrap()));
+        values.insert(h.join().unwrap());
+    }
+    for i in 1..=nhandles {
+        assert!(values.contains(&i));
     }
 }
     
